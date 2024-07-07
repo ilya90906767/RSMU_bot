@@ -5,11 +5,11 @@ class StudentRaw(models.Model):
     first_name=models.CharField(max_length=100)
     second_name=models.CharField(max_length=100)
     third_name=models.CharField(max_length=100)
-    snils=models.CharField(max_length=11)
+    auth_number=models.CharField(max_length=11)
     
     
     def __str__(self):
-        return f"{self.first_name} {self.second_name} {self.snils}"
+        return f"{self.first_name} {self.second_name} {self.auth_number}"
 
 class BotUser(models.Model):
     COURSES={
@@ -23,18 +23,18 @@ class BotUser(models.Model):
     first_name=models.CharField(max_length=100,blank=True)
     second_name=models.CharField(max_length=100,blank=True)
     third_name=models.CharField(max_length=100,blank=True)
-    snils=models.CharField(max_length=11,blank=True)
+    auth_number=models.CharField(max_length=11,blank=True)
     is_auth=models.BooleanField(default=False)
-    course=models.CharField(max_length=1,choices=COURSES,blank=True)
+    course=models.CharField(max_length=1,choices=list(COURSES.items()))
     user_id=models.PositiveBigIntegerField(unique=True,blank=True)
     
         
-    def snils_authenticate(self, input_snils):
-        if re.match(r'^\d{11}$',input_snils):
+    def auth_number_authenticate(self, input_auth_number):
+        if re.match(r'^\d{9}$',input_auth_number):
             try: 
-                studentraw = StudentRaw.objects.get(snils=input_snils)
-                if input_snils == studentraw.snils:
-                    self.snils = input_snils
+                studentraw = StudentRaw.objects.get(auth_number=input_auth_number)
+                if input_auth_number == studentraw.auth_number:
+                    self.auth_number = input_auth_number
                     self.first_name = studentraw.first_name
                     self.second_name = studentraw.second_name
                     self.third_name = studentraw.third_name
@@ -49,7 +49,7 @@ class BotUser(models.Model):
             return "FormatError"
         
     def __str__(self):
-        return f"{self.first_name} {self.second_name} {self.snils}"
+        return f"{self.first_name} {self.second_name} {self.auth_number}"
                 
 
         

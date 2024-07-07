@@ -45,7 +45,7 @@ INSTALLED_APPS = [
     'apps.bot.tg_messages',
     'apps.bot.tg_keyboards',
     'apps.bot.users',
-    'django_extensions'
+    'nested_admin'
 ]
 
 MIDDLEWARE = [

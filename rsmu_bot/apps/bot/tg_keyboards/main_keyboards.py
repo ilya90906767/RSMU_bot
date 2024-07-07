@@ -30,8 +30,6 @@ def main_auth():
     builder.adjust(2)
     return builder.as_markup()
     
-    
-    
 def auth():
     backButton = InlineKeyboardButton(text="Назад", callback_data=NavigationCallback(cb_text="auth_back").pack())
     keyboard_inline = InlineKeyboardMarkup(inline_keyboard=[

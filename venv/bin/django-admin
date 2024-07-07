@@ -1,4 +1,4 @@
-#!/home/ilyabetyaev/rsmu_bot/venv/bin/python3
+#!/Users/ilabetaev/RSMU_bot/RSMU_bot/venv/bin/python3
 # -*- coding: utf-8 -*-
 import re
 import sys
