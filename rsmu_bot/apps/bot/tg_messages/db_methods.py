@@ -11,6 +11,12 @@ def get_primitive_message(model):
 def get_primitive_image(model):
     url = model.objects.get(state="A").image.path
     return url
+
+@sync_to_async
+def get_button_primitive_image(model,title):
+    url = model.objects.get(state="A",title=title).image.path
+    return url
+
 @sync_to_async
 def get_user_from_db(user_id):
     return BotUser.objects.get(user_id=user_id)
@@ -32,3 +38,18 @@ def get_is_auth(user_id):
      user = BotUser.objects.get(user_id=user_id)
      is_auth = user.is_auth
      return is_auth
+
+@sync_to_async
+def get_all_curriculums_buttons(model): 
+     curriculums_buttons=list(model.objects.filter(state="A").values('id','title','message','image'))
+     return curriculums_buttons
+
+@sync_to_async
+def get_all_subcurriculums_buttons(model,curriculums_buttons_id): 
+     sub_curriculums_buttons=list(model.objects.filter(state="A",curriculums_buttons=curriculums_buttons_id).values('id','title','message','image','link','curriculums_buttons'))
+     return sub_curriculums_buttons
+
+@sync_to_async
+def get_all_subsubcurriculums_buttons(model, subcurriculums_button_id): 
+     subsub_curriculums_buttons=list(model.objects.filter(state="A", subcurriculums_buttons_id=subcurriculums_button_id).values('id','title','message','image','link'))
+     return subsub_curriculums_buttons

@@ -27,7 +27,7 @@ async def command_start_handler(message: Message) -> None:
         await message.answer_photo(
             caption = f"{text}", 
             photo=photo,
-            reply_markup=start(),
+            reply_markup=start(message),
             show_caption_above_media=True
             )
     except ObjectDoesNotExist:
@@ -39,7 +39,7 @@ async def command_start_handler(message: Message) -> None:
         await message.answer_photo(
             caption = f"{text}", 
             photo=photo,
-            reply_markup=start(),
+            reply_markup=start(message),
             show_caption_above_media=True
             )
         

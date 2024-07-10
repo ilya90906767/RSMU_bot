@@ -30,6 +30,7 @@ DEBUG = os.getenv('DEBUG')
 
 ALLOWED_HOSTS = ['*']
 
+DATA_UPLOAD_MAX_NUMBER_FIELDS = 2000
 
 # Application definition
 

@@ -8,7 +8,7 @@ from asgiref.sync import sync_to_async
 
 from rsmu_bot.apps.bot.tg_messages.db_methods import get_primitive_message,get_user_from_db
 from rsmu_bot.apps.bot.tg_messages.models import RegistrationMessage
-from rsmu_bot.apps.bot.tg_keyboards.main_keyboards import NavigationCallback
+from rsmu_bot.apps.bot.tg_keyboards.main_keyboards import NCM
 from rsmu_bot.apps.bot.tg_keyboards.main_keyboards import auth
 
 from rsmu_bot.apps.bot.users.models import BotUser
@@ -19,7 +19,7 @@ class Auth_Number(StatesGroup):
     numbers = State()
     
 
-@auth_router.callback_query(NavigationCallback.filter(F.cb_text == "auth"))
+@auth_router.callback_query(NCM.filter(F.cb_text == "auth"))
 async def auth_callback(query: types.CallbackQuery, state: FSMContext):
     text = await get_primitive_message(RegistrationMessage)
     await state.set_state(Auth_Number.numbers)
