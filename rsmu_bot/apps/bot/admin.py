@@ -3,6 +3,7 @@ from nested_admin import NestedTabularInline, NestedModelAdmin, NestedStackedInl
 
 from rsmu_bot.apps.bot.tg_messages.models import * 
 from rsmu_bot.apps.bot.users.models import StudentRaw, BotUser
+from rsmu_bot.apps.bot.polls.models import PollsImage
 
 class SubSubCurriculumsButtons(NestedStackedInline):
     model=SubSubCurriculumsButtons
@@ -30,3 +31,5 @@ admin.site.register(UnknownMessage, admin.ModelAdmin)
 admin.site.register(StudentRaw, admin.ModelAdmin)
 admin.site.register(BotUser, admin.ModelAdmin)
 admin.site.register(CurriculumsMessage, CurriculumsMessageAdmin)
+
+admin.site.register(PollsImage,admin.ModelAdmin)

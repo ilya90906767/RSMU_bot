@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'apps.bot.tg_messages',
     'apps.bot.tg_keyboards',
     'apps.bot.users',
+    'apps.bot.polls',
     'nested_admin'
 ]
 

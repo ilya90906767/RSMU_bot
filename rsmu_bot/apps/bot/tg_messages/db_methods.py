@@ -1,7 +1,24 @@
 import asyncio
 from asgiref.sync import sync_to_async
 
+from rsmu_bot.apps.bot.polls.models import PollsImage
 from rsmu_bot.apps.bot.users.models import BotUser
+
+@sync_to_async
+def get_user_id_from_tg_user_id(user_id):
+     bot_user = BotUser.objects.get(user_id=user_id)
+     return bot_user
+
+@sync_to_async
+def upload_poll_photo_by_user_id(user, image, data):
+    polls_image = PollsImage(
+        user=user,
+        image=image,
+        poll_number=data['poll_id'],
+    )
+    
+    polls_image.save()
+    return True
 
 @sync_to_async
 def get_primitive_message(model):
@@ -53,3 +70,4 @@ def get_all_subcurriculums_buttons(model,curriculums_buttons_id):
 def get_all_subsubcurriculums_buttons(model, subcurriculums_button_id): 
      subsub_curriculums_buttons=list(model.objects.filter(state="A", subcurriculums_buttons_id=subcurriculums_button_id).values('id','title','message','image','link'))
      return subsub_curriculums_buttons
+

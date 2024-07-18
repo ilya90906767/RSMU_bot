@@ -12,6 +12,7 @@ from aiogram.client.default import DefaultBotProperties
 from aiogram.enums import ParseMode 
 
 #Importing handlers
+from rsmu_bot.apps.bot.polls.polls_router import polls_router
 from rsmu_bot.apps.bot.tg_messages.start import start_router
 from rsmu_bot.apps.bot.tg_messages.callback import callback_router
 from rsmu_bot.apps.bot.tg_messages.auth import auth_router
@@ -30,7 +31,8 @@ async def main() -> None:
     dp.include_routers(
         start_router,
         callback_router,
-        auth_router
+        auth_router,
+        polls_router
     )
 
     # Initialize Bot instance with default bot properties which will be passed to all API calls

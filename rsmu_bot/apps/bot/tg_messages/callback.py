@@ -15,7 +15,7 @@ from aiogram.types import Message, InputFile, FSInputFile
 
 callback_router = Router()
 
-@callback_router.callback_query(NCM.filter(F.cb_text.in_(["start", "auth_back","curriculums_to_main"])))
+@callback_router.callback_query(NCM.filter(F.cb_text.in_(["start", "auth_back","curriculums_to_main", "success_uploaded_poll_to_main"])))
 async def start_callback(query: types.CallbackQuery):
     user_id = query.from_user.id 
     text = await get_primitive_message(MainMessage)
