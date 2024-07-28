@@ -16,7 +16,7 @@ from rsmu_bot.apps.bot.polls.polls_router import polls_router
 from rsmu_bot.apps.bot.tg_messages.start import start_router
 from rsmu_bot.apps.bot.tg_messages.callback import callback_router
 from rsmu_bot.apps.bot.tg_messages.auth import auth_router
-
+from rsmu_bot.apps.bot.online_elder.callbacks import online_elder_callback
 #Importing models 
 from rsmu_bot.apps.bot.tg_messages.models import *
 
@@ -32,7 +32,8 @@ async def main() -> None:
         start_router,
         callback_router,
         auth_router,
-        polls_router
+        polls_router,
+        online_elder_callback
     )
 
     # Initialize Bot instance with default bot properties which will be passed to all API calls
