@@ -2,25 +2,26 @@ version: '3'
 
 services:
   django:
-    build: ./rsmu_bot
-    environment:
-      - DJANGO_SETTINGS_MODULE=${DJANGO_SETTINGS_MODULE}
+    build: .
     env_file:
       - .env
     ports:
       - "8000:8000"
+    command: [ "/rsmu_bot/docker/app.sh" ]
     volumes:
-      - ./rsmu_bot:/app
-    command: python manage.py runserver 0.0.0.0:8000
+      - ./db.sqlite3:/rsmu_bot/db.sqlite3
+      - ./rsmu_bot/static:/rsmu_bot/rsmu_bot/static
+      - ./rsmu_bot/media:/rsmu_bot/rsmu_bot/media
 
   bot:
-    build: ./rsmu_bot
-    environment:
-      - DJANGO_SETTINGS_MODULE=${DJANGO_SETTINGS_MODULE}
+    build: .
     env_file:
       - .env
     volumes:
-      - ./rsmu_bot:/app
+      - ./db.sqlite3:/rsmu_bot/db.sqlite3
+      - ./rsmu_bot/static:/rsmu_bot/rsmu_bot/static
+      - ./rsmu_bot/media:/rsmu_bot/rsmu_bot/media
     depends_on:
       - django
     command: python manage.py run_bot
+
