@@ -12,7 +12,7 @@ class PCB(CallbackData, prefix="PollCallBack"):
 
 def start_polls_keyboard():
     builder = InlineKeyboardBuilder()
-    builder.button(text="Назад", callback_data=PCB(text="back").pack())
+    builder.button(text="Назад", callback_data=NCM(cb_text="auth_back").pack())
     builder.button(text="1",callback_data=PCB(poll_id=1, text="poll_id").pack())
     builder.button(text="2",callback_data=PCB(poll_id=2, text="poll_id").pack())
     builder.button(text="3",callback_data=PCB(poll_id=3, text="poll_id").pack())

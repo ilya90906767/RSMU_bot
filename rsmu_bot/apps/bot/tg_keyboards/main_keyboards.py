@@ -4,7 +4,7 @@ from aiogram.filters.callback_data import CallbackData
 
 
 class NCM(CallbackData, prefix="NavCallbackWithMessageID"): #NCM - navigation callback with message id
-    cb_text: str
+    cb_text: str = ""
     cb_message_id: int = 0
     cb_button_id: int = 0
 
@@ -27,9 +27,9 @@ def main_auth(message):
     builder = InlineKeyboardBuilder()
     builder.button(text="Внеучебная деятельность", callback_data=NCM(cb_text="curriculums",cb_message_id=message.message_id).pack())
     builder.button(text="Онлайн староста", callback_data=NCM(cb_text="online_elder",cb_message_id=message.message_id).pack())
-    builder.button(text="Связь с руководством", callback_data=NCM(cb_text="start_polls",cb_message_id=message.message_id).pack())
-    builder.button(text="Личный кабинет", callback_data=NCM(cb_text="account",cb_message_id=message.message_id).pack())
-    builder.button(text="Навигация", callback_data=NCM(cb_text="navigation",cb_message_id=message.message_id).pack())
+    builder.button(text="Связь с руководством", callback_data=NCM(cb_text="start_polls_test",cb_message_id=message.message_id).pack())
+    # builder.button(text="Личный кабинет", callback_data=NCM(cb_text="account",cb_message_id=message.message_id).pack())
+    # builder.button(text="Навигация", callback_data=NCM(cb_text="navigation",cb_message_id=message.message_id).pack())
     builder.adjust(2)
     return builder.as_markup()
     

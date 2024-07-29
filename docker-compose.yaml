@@ -1,0 +1,26 @@
+version: '3'
+
+services:
+  django:
+    build: ./rsmu_bot
+    environment:
+      - DJANGO_SETTINGS_MODULE=${DJANGO_SETTINGS_MODULE}
+    env_file:
+      - .env
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./rsmu_bot:/app
+    command: python manage.py runserver 0.0.0.0:8000
+
+  bot:
+    build: ./rsmu_bot
+    environment:
+      - DJANGO_SETTINGS_MODULE=${DJANGO_SETTINGS_MODULE}
+    env_file:
+      - .env
+    volumes:
+      - ./rsmu_bot:/app
+    depends_on:
+      - django
+    command: python manage.py run_bot

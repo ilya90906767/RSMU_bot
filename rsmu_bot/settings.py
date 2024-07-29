@@ -47,7 +47,8 @@ INSTALLED_APPS = [
     'apps.bot.tg_keyboards',
     'apps.bot.users',
     'apps.bot.polls',
-    'nested_admin'
+    'nested_admin',
+    'apps.bot.online_elder'
 ]
 
 MIDDLEWARE = [
