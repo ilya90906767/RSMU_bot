@@ -23,6 +23,10 @@ class PollsImage(models.Model):
         ('processed', 'Processed'),
         ('good', 'Good'),
         ('bad','Bad'),
+        ('bad_message_send', 'BadMS'),
+        ('good_message_send', 'GoodMS'),
+        ('bad_automate', 'BadAu'),
+        ('good_automate','GoodAu')
     ])
 
     def save(self, *args, **kwargs):

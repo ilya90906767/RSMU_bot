@@ -27,7 +27,7 @@ def main_auth(message):
     builder = InlineKeyboardBuilder()
     builder.button(text="Внеучебная деятельность", callback_data=NCM(cb_text="curriculums",cb_message_id=message.message_id).pack())
     builder.button(text="Онлайн староста", callback_data=NCM(cb_text="online_elder",cb_message_id=message.message_id).pack())
-    builder.button(text="Связь с руководством", callback_data=NCM(cb_text="start_polls_test",cb_message_id=message.message_id).pack())
+    builder.button(text="Связь с руководством", callback_data=NCM(cb_text="start_polls",cb_message_id=message.message_id).pack())
     # builder.button(text="Личный кабинет", callback_data=NCM(cb_text="account",cb_message_id=message.message_id).pack())
     # builder.button(text="Навигация", callback_data=NCM(cb_text="navigation",cb_message_id=message.message_id).pack())
     builder.adjust(2)
@@ -56,11 +56,13 @@ def subcurriculums_buttons(button_id,all_sub_curriculums_buttons):
     builder.adjust(1,3)
     return builder.as_markup()
 
-def subsubcurriculums_buttons(button_id, all_subsubcurriculums_buttons):
+def subsubcurriculums_buttons(button_id, all_subsubcurriculums_buttons,link):
     builder = InlineKeyboardBuilder()
     builder.button(text="Назад", callback_data=NCM(cb_text=f"from_subsub_to_subcurriculums", cb_message_id=button_id).pack())
     for button in all_subsubcurriculums_buttons:
         builder.button(text=f"{button['title']}", callback_data=NCM(cb_text=f"subsubcurriculums_button_{button['id']}", cb_message_id=button_id).pack())
+    if link:
+        builder.button(text="Ссылка", url=link)
     builder.adjust(1, 3)
     return builder.as_markup()
 
@@ -69,7 +71,6 @@ def subsubsubcurriculums_buttons(button_id, link):
     builder.button(text="Назад", callback_data=NCM(cb_text=f"from_subsubsub_to_subcurriculums", cb_message_id=button_id).pack())
     if link:
         builder.button(text="Ссылка", url=link)
-    
     builder.adjust(1)
     return builder.as_markup()
     

@@ -54,8 +54,30 @@ class SubElderMessageButtons(models.Model):
     link=models.CharField(max_length=400,blank=True)
     state=models.CharField(max_length=1,choices=list(MESSAGE_STATES.items()))
 
+    def get_subsub_buttons(self):
+        subsub_buttons = self.subsubeldermessagebuttons_set.all()
+        return subsub_buttons if subsub_buttons.exists() else False
+
     def __str__(self):
         return f'{self.title}'
     
     class Meta:
         verbose_name = "Кнопки к Подтемам"
+
+class SubSubElderMessageButtons(models.Model):
+    MESSAGE_STATES= {
+        "A": "Активно",
+        "N": "Неактивно"
+    }
+    subeldermessagebutton=models.ForeignKey(SubElderMessageButtons,on_delete=models.CASCADE)
+    title=models.CharField(max_length=400)
+    message=models.TextField(max_length=4000)
+    image=models.ImageField(upload_to='subsubeldermessagebuttons_img',blank=True)
+    link=models.CharField(max_length=400,blank=True)
+    state=models.CharField(max_length=1,choices=list(MESSAGE_STATES.items()))
+
+    def __str__(self):
+        return f'{self.title}'
+    
+    class Meta:
+        verbose_name = "ПодПодтемы"

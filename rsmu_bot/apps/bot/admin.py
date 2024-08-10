@@ -4,12 +4,17 @@ from nested_admin import NestedTabularInline, NestedModelAdmin, NestedStackedInl
 from rsmu_bot.apps.bot.tg_messages.models import * 
 from rsmu_bot.apps.bot.users.models import StudentRaw, BotUser
 from rsmu_bot.apps.bot.polls.models import PollsImage
-from rsmu_bot.apps.bot.online_elder.models import ElderMessage, ElderMessageButtons, SubElderMessageButtons
+from rsmu_bot.apps.bot.online_elder.models import ElderMessage, ElderMessageButtons, SubElderMessageButtons, SubSubElderMessageButtons
 
 
 #Online Elder Nestet Obj
+class SubSubElderMessageButtonsInline(NestedStackedInline):
+    model = SubSubElderMessageButtons
+    extra=0
+    
 class SubElderMessageButtonsInline(NestedStackedInline):
     model = SubElderMessageButtons
+    inlines=[SubSubElderMessageButtonsInline]
     extra=0
 
 class ElderMessageButtonsInline(NestedStackedInline):

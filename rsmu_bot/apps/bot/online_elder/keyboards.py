@@ -21,7 +21,18 @@ def ElderMessageButtons_kb(buttons, link):
         builder.button(text="Ссылка", url=link)
     builder.adjust(1,2)
     return builder.as_markup()
-def SubElderMessageButtons_kb(link):
+def SubElderMessageButtons_kb(buttons,link):
+    builder = InlineKeyboardBuilder()
+    builder.button(text="Назад", callback_data=NCM(cb_text="auth_back").pack())
+    if buttons != []:
+        for button in buttons:
+            builder.button(text=f"{button['title']}", callback_data=NCM(cb_button_id=button['id'], cb_text="SubSubElderMessageButtons").pack())
+    if link: 
+        builder.button(text="Ссылка", url=link)
+    builder.adjust(1,2)
+    return builder.as_markup()
+
+def SubSubElderMessageButtons_kb(link):
     builder = InlineKeyboardBuilder()
     builder.button(text="Назад", callback_data=NCM(cb_text="auth_back").pack())
     if link: 

@@ -2,7 +2,7 @@ from asgiref.sync import sync_to_async
 from rsmu_bot.apps.bot.online_elder.models import ElderMessage, ElderMessageButtons, SubElderMessageButtons
 
 from asgiref.sync import sync_to_async
-from rsmu_bot.apps.bot.online_elder.models import ElderMessage, ElderMessageButtons, SubElderMessageButtons
+from rsmu_bot.apps.bot.online_elder.models import ElderMessage, ElderMessageButtons, SubElderMessageButtons, SubSubElderMessageButtons
 
 @sync_to_async
 def get_online_elder_buttons(Modelname, id=None):
@@ -24,9 +24,24 @@ def get_online_elder_buttons(Modelname, id=None):
         return text,buttons, photo_url, link
     elif Modelname == "SubElderMessageButtons":
         sub_elder_message_button = SubElderMessageButtons.objects.get(state="A", id=id)
+        subsub_buttons = sub_elder_message_button.get_subsub_buttons()
+
+        if subsub_buttons:
+            buttons = list(subsub_buttons.values('id','title','message','image','link'))
+        else:
+            buttons = []
+
         print(sub_elder_message_button)
         text = sub_elder_message_button.message
         photo_url = sub_elder_message_button.image.path
         link = sub_elder_message_button.link
+        print(link)
+        return text,photo_url,link,buttons
+    elif Modelname == "SubSubElderMessageButtons":
+        subsub_elder_message_button = SubSubElderMessageButtons.objects.get(state="A", id=id)
+        print(subsub_elder_message_button)
+        text = subsub_elder_message_button.message
+        photo_url = subsub_elder_message_button.image.path
+        link = subsub_elder_message_button.link
         print(link)
         return text,photo_url,link

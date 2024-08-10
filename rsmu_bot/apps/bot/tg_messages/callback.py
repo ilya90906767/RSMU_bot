@@ -12,6 +12,9 @@ from aiogram import Router
 from aiogram import F
 from aiogram.types import Message, InputFile, FSInputFile
 
+import logging
+
+logging.basicConfig(level=logging.ERROR)
 
 callback_router = Router()
 
@@ -33,33 +36,41 @@ async def start_callback(query: types.CallbackQuery):
 
 #Все кружки типо СНО и Спорт
 @callback_router.callback_query(NCM.filter(F.cb_text.in_(["curriculums","from_subcurriculums_to_button","from_subsub_to_subcurriculums","from_subsubsub_to_subcurriculums"])))
-async def start_curriculums(query: types.CallbackQuery,bot:Bot,callback_data: NCM):
+async def start_curriculums(query: types.CallbackQuery, bot: Bot, callback_data: NCM):
     text = await get_primitive_message(CurriculumsMessage)
     all_curriculums_buttons = await get_all_curriculums_buttons(CurriculumsButtons)
     # print(all_curriculums_buttons)
     # print('Past meessge ID',callback_data.cb_message_id)
     await query.message.delete()
-    await query.message.answer(text,reply_markup=curriculums(query.message,all_curriculums_buttons))
+    try:
+        await query.message.answer(text, reply_markup=curriculums(query.message, all_curriculums_buttons))
+    except Exception as e:
+        print(f"Ошибка отправки сообщения: {e}")
+        await query.message.answer(text="Ошибка отправки сообщения. Пожалуйста, попробуйте позже.")
     
 #Спортклуб -- выбираем киберклуб
 @callback_router.callback_query(NCM.filter(F.cb_text.startswith("curriculums_button")))
-async def start_curriculums(query:types.CallbackQuery,bot:Bot,callback_data: NCM):
+async def start_curriculums(query: types.CallbackQuery, bot: Bot, callback_data: NCM):
     button_id = callback_data.cb_text.split("_")[2]
     all_curriculums_buttons = await get_all_curriculums_buttons(CurriculumsButtons)
     curriculum_button_title = next((item for item in all_curriculums_buttons if int(item["id"]) == int(button_id)))["title"]
-    image_path = await get_button_primitive_image(CurriculumsButtons,curriculum_button_title)
+    image_path = await get_button_primitive_image(CurriculumsButtons, curriculum_button_title)
     image_url = str(image_path)
     photo = FSInputFile(image_url)
     # print(image_url)
     curriculum_button_message = next((item for item in all_curriculums_buttons if int(item["id"]) == int(button_id)))["message"]
-    all_sub_curriculums_buttons = await get_all_subcurriculums_buttons(SubCurriculumsButtons,int(button_id))
+    all_sub_curriculums_buttons = await get_all_subcurriculums_buttons(SubCurriculumsButtons, int(button_id))
     # print(all_sub_curriculums_buttons)
     await query.message.delete()
-    await query.message.answer_photo(
-        photo=photo, 
-        caption=curriculum_button_message, 
-        reply_markup=subcurriculums_buttons(int(button_id), all_sub_curriculums_buttons)
+    try:
+        await query.message.answer_photo(
+            photo=photo, 
+            caption=curriculum_button_message, 
+            reply_markup=subcurriculums_buttons(int(button_id), all_sub_curriculums_buttons)
         )
+    except Exception as e:
+        print(f"Ошибка отправки: {e}")
+        await query.message.answer(text="Ошибка отправки. Пожалуйста, попробуйте позже.")
 
 #Киберклуб - выбираем доту
 @callback_router.callback_query(NCM.filter(F.cb_text.startswith("subcurriculums_button_")))
@@ -76,13 +87,18 @@ async def start_subcurriculums(query: types.CallbackQuery, bot: Bot, callback_da
     subcurriculums_button = next((item for item in all_subcurriculums_buttons if int(item["id"]) == int(button_id)))
     message_text = subcurriculums_button["message"]
     all_subsubcurriculums_buttons = await get_all_subsubcurriculums_buttons(SubSubCurriculumsButtons, int(button_id))
+    link = subcurriculums_button.get('link', [])
     print(all_subsubcurriculums_buttons)
     await query.message.delete()
-    await query.message.answer_photo(
-        photo=photo, 
-        caption=message_text, 
-        reply_markup=subsubcurriculums_buttons(button_id, all_subsubcurriculums_buttons)
+    try:
+        await query.message.answer_photo(
+            photo=photo, 
+            caption=message_text, 
+            reply_markup=subsubcurriculums_buttons(button_id, all_subsubcurriculums_buttons, link)
         )
+    except Exception as e:
+        print(f"Ошибка отправки сообщения: {e}")
+        await query.message.answer(text="Ошибка отправки сообщения. Пожалуйста, попробуйте позже.")
     
 @callback_router.callback_query(NCM.filter(F.cb_text.startswith("subsubcurriculums_button_")))
 async def start_subsubcurriculums(query: types.CallbackQuery, bot: Bot, callback_data: NCM):
@@ -99,8 +115,12 @@ async def start_subsubcurriculums(query: types.CallbackQuery, bot: Bot, callback
     link = subsubcurriculums_button.get('link', [])
     print(link)
     await query.message.delete()
-    await query.message.answer_photo(
-        photo=photo, 
-        caption=message_text, 
-        reply_markup=subsubsubcurriculums_buttons(button_id,link)
+    try:
+        await query.message.answer_photo(
+            photo=photo, 
+            caption=message_text, 
+            reply_markup=subsubsubcurriculums_buttons(button_id, link)
         )
+    except Exception as e:
+        print(f"Ошибка отправки фото: {e}")
+        await query.message.answer(text="Ошибка отправки. Пожалуйста, попробуйте позже.")
